@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ULSA Olimpiadas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+       
+       :root {
+            --ls-blue: #002D62;
+            --ls-red: #E31837;
+            --ls-white: #FFFFFF;
+            --bg-light: #F4F6F8;
+            --text-dark: #1A1D24;
+            --text-muted: #6C757D;
+            --border-color: #E2E8F0;
+        }
+ 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+ 
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+ 
+        /* Header Lasallista */
+        .header {
+            background-color: var(--ls-blue);
+            color: var(--ls-white);
+            padding: 20px 15px;
+            text-align: center;
+            border-bottom: 4px solid var(--ls-red);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+ 
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+ 
+        .controls {
+            display: flex;
+            gap: 10px;
+            padding: 20px 15px;
+            background: var(--ls-white);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+ 
+        /* Botones Select Mejorados */
+        select {
+            flex: 1;
+            padding: 14px 40px 14px 15px;
+            background-color: var(--ls-white);
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23002D62' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+        }
+ 
+        select:hover {
+            border-color: var(--ls-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 45, 98, 0.15);
+        }
+ 
+        select:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+ 
+        /* Optimización móvil: Scroll Snapping */
+        .bracket-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 15px;
+            display: flex;
+            flex: 1;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+        
+        .bracket-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+ 
+        .bracket {
+            display: flex;
+            gap: 20px;
+            min-width: max-content;
+        }
+ 
+        .round {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 280px;
+            gap: 20px;
+            scroll-snap-align: center;
+        }
+ 
+        .round-title {
+            text-align: center;
+            font-weight: 800;
+            color: var(--ls-blue);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            background: var(--ls-white);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+ 
+        .match {
+            background: var(--ls-white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+        }
+ 
+        .match-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            font-weight: 600;
+        }
+ 
+        .team {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: var(--bg-light);
+        }
+ 
+        .color-box {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+ 
+        .team-name {
+            font-size: 1rem;
+            flex: 1;
+            font-weight: 600;
+        }
+ 
+        /* Marcadores */
+        .score {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            background: var(--ls-white);
+            padding: 2px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+ 
+        /* Estados */
+        .winner {
+            background-color: rgba(0, 45, 98, 0.05);
+            border-left: 4px solid var(--ls-blue);
+        }
+        
+        .winner .score {
+            background-color: var(--ls-blue);
+            color: var(--ls-white);
+            border-color: var(--ls-blue);
+        }
+ 
+        .loser {
+            opacity: 0.5;
+        }
+ 
+        .loser .score {
+            background-color: transparent;
+            color: var(--text-muted);
+            border-color: transparent;
+        }
+ 
+        .tbd {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+ 
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            font-weight: 600;
+            width: 100%;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>ULSA Olimpiadas</h1>
+    </div>
+
+    <div class="controls">
+        <select id="sport-select">
+            <option value="futbol">⚽ Fútbol</option>
+            <option value="voleibol">🏐 Voleibol</option>
+        </select>
+        <select id="grade-select">
+            <option value="cuarto">4to Semestre</option>
+            <option value="quinto">5to Semestre</option>
+            <option value="sexto">6to Semestre</option>
+        </select>
+    </div>
+
+    <div class="bracket-wrapper">
+        <div id="bracket-container" class="bracket"></div>
+    </div>
+
+    <script>
+        const colors = {
+            blue: "#3b82f6", gray: "#9ca3af", black: "#222222", 
+            green: "#22c55e", red: "#ef4444", orange: "#f97316", 
+            purple: "#a855f7", white: "#ffffff", tbd: "#e2e8f0"
+        };
+
+        // BASE DE DATOS: Añade 'score: X' dentro del objeto del equipo si ya se jugó.
+        const tournamentData = {
+            "futbol": {
+                "cuarto": [
+                    {
+                        roundName: "Cuartos de Final",
+                        matches: [
+                            { date: "22 abril", team1: { name: "Salón 4", color: colors.blue, score: 1 }, team2: { name: "Salón 6", color: colors.gray, score: 0 }, status: "played", winner: 1 },
+                            { date: "23 abril", team1: { name: "Salón 3", color: colors.black }, team2: { name: "Salón 2", color: colors.green }, status: "pending", winner: null },
+                            { date: "27 abril", team1: { name: "Salón 7", color: colors.red }, team2: { name: "Salón 5", color: colors.white }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Semifinales",
+                        matches: [
+                            { date: "29 abril", team1: { name: "Salón 1", color: colors.orange }, team2: { name: "Salón 4", color: colors.blue }, status: "pending", winner: null },
+                            { date: "28 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Final",
+                        matches: [
+                            { date: "30 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    }
+                ],
+                "quinto": [
+                    {
+                        roundName: "Cuartos de Final",
+                        matches: [
+                            { date: "22 abril", team1: { name: "Salón 9", color: colors.white, score: 2 }, team2: { name: "Salón 11", color: colors.purple, score: 0 }, status: "played", winner: 1 },
+                            { date: "23 abril", team1: { name: "Salón 10", color: colors.black }, team2: { name: "Salón 14", color: colors.red }, status: "pending", winner: null },
+                            { date: "27 abril", team1: { name: "Salón 12", color: colors.green }, team2: { name: "Salón 8", color: colors.blue }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Semifinales",
+                        matches: [
+                            { date: "29 abril", team1: { name: "Salón 13", color: colors.gray }, team2: {  name: "Salón 9", color: colors.white }, status: "pending", winner: null },
+                            { date: "28 abril", team1: {  name: "Por definir", color: colors.tbd }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Final",
+                        matches: [
+                            { date: "30 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    }
+                ],
+                "sexto": [
+                    {
+                        roundName: "Semifinales",
+                        matches: [
+                            { date: "28 abril", team1: { name: "Área 2", color: colors.black }, team2: { name: "Área 1", color: colors.white }, status: "pending", winner: null },
+                            { date: "29 abril", team1: { name: "Salón 19", color: colors.blue }, team2: { name: "Salón 20", color: colors.white }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Final",
+                        matches: [
+                            { date: "30 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    }
+                ]
+            },
+            "voleibol": {
+                "cuarto": [
+                    {
+                        roundName: "Final Directa",
+                        matches: [
+                            { date: "29 abril", team1: { name: "Salón 2", color: colors.green }, team2: { name: "Salón 7", color: colors.red }, status: "pending", winner: null }
+                        ]
+                    }
+                ],
+                "quinto": [
+                    {
+                        roundName: "Semifinal",
+                        matches: [
+                            { date: "28 abril", team1: { name: "Salón 12", color: colors.green }, team2: { name: "Salón 10", color: colors.black }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Final",
+                        matches: [
+                            { date: "29 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Salón 9", color: colors.white }, status: "pending", winner: null }
+                        ]
+                    }
+                ],
+                "sexto": [
+                    {
+                        roundName: "Semifinales",
+                        matches: [
+                            { date: "27 abril", team1: { name: "Área 1", color: colors.white }, team2: { name: "Salón 20", color: colors.white }, status: "pending", winner: null },
+                            { date: "28 abril", team1: { name: "Salón 19", color: colors.blue }, team2: { name: "Salón 21", color: colors.gray }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Final",
+                        matches: [
+                            { date: "29 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        const sportSelect = document.getElementById('sport-select');
+        const gradeSelect = document.getElementById('grade-select');
+        const bracketContainer = document.getElementById('bracket-container');
+
+        function renderBracket() {
+            const sport = sportSelect.value;
+            const grade = gradeSelect.value;
+            const rounds = tournamentData[sport]?.[grade] || [];
+
+            bracketContainer.innerHTML = '';
+
+            if (rounds.length === 0) {
+                bracketContainer.innerHTML = '<div class="empty-state">No hay partidos registrados.</div>';
+                return;
+            }
+
+            rounds.forEach(round => {
+                const roundDiv = document.createElement('div');
+                roundDiv.className = 'round';
+
+                const title = document.createElement('div');
+                title.className = 'round-title';
+                title.textContent = round.roundName;
+                roundDiv.appendChild(title);
+
+                round.matches.forEach(match => {
+                    const matchDiv = document.createElement('div');
+                    matchDiv.className = 'match';
+
+                    let t1Class = 'team';
+                    let t2Class = 'team';
+                    
+                    if (match.status === 'played') {
+                        if (match.winner === 1) { t1Class += ' winner'; t2Class += ' loser'; }
+                        else if (match.winner === 2) { t2Class += ' winner'; t1Class += ' loser'; }
+                    }
+
+                    const score1Html = match.team1.score !== undefined ? `<span class="score">${match.team1.score}</span>` : '';
+                    const score2Html = match.team2.score !== undefined ? `<span class="score">${match.team2.score}</span>` : '';
+
+                    matchDiv.innerHTML = `
+                        <div class="match-date">${match.date}</div>
+                        <div class="${t1Class}">
+                            <div class="color-box" style="background-color: ${match.team1.color}"></div>
+                            <span class="team-name ${match.team1.name === 'Por definir' ? 'tbd' : ''}">${match.team1.name}</span>
+                            ${score1Html}
+                        </div>
+                        <div class="${t2Class}">
+                            <div class="color-box" style="background-color: ${match.team2.color}"></div>
+                            <span class="team-name ${match.team2.name === 'Por definir' ? 'tbd' : ''}">${match.team2.name}</span>
+                            ${score2Html}
+                        </div>
+                    `;
+                    roundDiv.appendChild(matchDiv);
+                });
+
+                bracketContainer.appendChild(roundDiv);
+            });
+        }
+
+        sportSelect.addEventListener('change', renderBracket);
+        gradeSelect.addEventListener('change', renderBracket);
+
+        renderBracket();
+    </script>
+</body>
+</html>
