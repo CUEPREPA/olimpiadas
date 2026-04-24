@@ -274,21 +274,14 @@
         }
 
         /* BASE DE DATOS (solo cambiada la parte con penales) */
-        const tournamentData = {
+   const tournamentData = {
             "futbol": {
                 "cuarto": [
                     {
                         roundName: "Cuartos de Final",
                         matches: [
-                            { 
-                                date: "22 abril", 
-                                team1: { name: "Salón 4", color: colors.blue, score: 1 }, 
-                                team2: { name: "Salón 6", color: colors.gray, score: 0 }, 
-                                status: "played", 
-                                winner: 1 
-                            },
-
-                            { 
+                            { date: "22 abril", team1: { name: "Salón 4", color: colors.blue, score: 1 }, team2: { name: "Salón 6", color: colors.gray, score: 0 }, status: "played", winner: 1 },
+                            {
                                 date: "23 abril", 
                                 team1: { name: "Salón 3", color: colors.green, score: 0, penalties: 3 }, 
                                 team2: { name: "Salón 2", color: colors.black, score: 0, penalties: 4 }, 
@@ -296,17 +289,10 @@
                                 winner: 2,
                                 wentToPenalties: true
                             },
-
-                            { 
-                                date: "27 abril", 
-                                team1: { name: "Salón 7", color: colors.red }, 
-                                team2: { name: "Salón 5", color: colors.white }, 
-                                status: "pending", 
-                                winner: null 
-                            }
+                            { date: "23 abril", team1: { name: "Salón 3", color: colors.green, score: "0-3" }, team2: { name: "Salón 2", color: colors.black, score: "0-4" }, status: "played", winner: 2 },
+                            { date: "27 abril", team1: { name: "Salón 7", color: colors.red }, team2: { name: "Salón 5", color: colors.white }, status: "pending", winner: null }
                         ]
                     },
-
                     {
                         roundName: "Semifinales",
                         matches: [
@@ -314,7 +300,6 @@
                             { date: "28 abril", team1: { name: "Salón 2", color: colors.black }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
                         ]
                     },
-
                     {
                         roundName: "Final",
                         matches: [
@@ -322,17 +307,83 @@
                         ]
                     }
                 ],
-
-                /* resto idéntico (no modificado) */
-                "quinto": [ /* ... igual ... */ ],
-                "sexto": [ /* ... igual ... */ ]
+                "quinto": [
+                    {
+                        roundName: "Cuartos de Final",
+                        matches: [
+                            { date: "22 abril", team1: { name: "Salón 9", color: colors.white, score: 2 }, team2: { name: "Salón 11", color: colors.purple, score: 0 }, status: "played", winner: 1 },
+                            { date: "23 abril", team1: { name: "Salón 10", color: colors.black, score: 2 }, team2: { name: "Salón 14", color: colors.red, score: 0 }, status: "played", winner: 1 },
+                            { date: "27 abril", team1: { name: "Salón 12", color: colors.green }, team2: { name: "Salón 8", color: colors.blue }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Semifinales",
+                        matches: [
+                            { date: "29 abril", team1: { name: "Salón 13", color: colors.gray }, team2: {  name: "Salón 9", color: colors.white }, status: "pending", winner: null },
+                            { date: "28 abril", team1: {  name: "Salón 10", color: colors.black }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Final",
+                        matches: [
+                            { date: "30 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    }
+                ],
+                "sexto": [
+                    {
+                        roundName: "Semifinales",
+                        matches: [
+                            { date: "28 abril", team1: { name: "Área 2", color: colors.black }, team2: { name: "Área 1", color: colors.white }, status: "pending", winner: null },
+                            { date: "29 abril", team1: { name: "Salón 19", color: colors.blue }, team2: { name: "Salón 20", color: colors.red }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Final",
+                        matches: [
+                            { date: "30 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    }
+                ]
             },
-
             "voleibol": {
-                /* igual, sin cambios */
-                "cuarto": [ /* ... */ ],
-                "quinto": [ /* ... */ ],
-                "sexto": [ /* ... */ ]
+                "cuarto": [
+                    {
+                        roundName: "Final Directa",
+                        matches: [
+                            { date: "29 abril", team1: { name: "Salón 2", color: colors.black }, team2: { name: "Salón 7", color: colors.red }, status: "pending", winner: null }
+                        ]
+                    }
+                ],
+                "quinto": [
+                    {
+                        roundName: "Semifinal",
+                        matches: [
+                            { date: "28 abril", team1: { name: "Salón 12", color: colors.green }, team2: { name: "Salón 10", color: colors.black }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Final",
+                        matches: [
+                            { date: "29 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Salón 9", color: colors.white }, status: "pending", winner: null }
+                        ]
+                    }
+                ],
+                "sexto": [
+                    {
+                        roundName: "Semifinales",
+                        matches: [
+                            { date: "27 abril", team1: { name: "Área 1", color: colors.white }, team2: { name: "Salón 20", color: colors.red }, status: "pending", winner: null },
+                            { date: "28 abril", team1: { name: "Salón 19", color: colors.blue }, team2: { name: "Salón 21", color: colors.gray }, status: "pending", winner: null }
+                        ]
+                    },
+                    {
+                        roundName: "Final",
+                        matches: [
+                            { date: "29 abril", team1: { name: "Por definir", color: colors.tbd }, team2: { name: "Por definir", color: colors.tbd }, status: "pending", winner: null }
+                        ]
+                    }
+                ]
             }
         };
 
